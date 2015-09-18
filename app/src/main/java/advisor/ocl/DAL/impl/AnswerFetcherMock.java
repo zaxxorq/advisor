@@ -73,7 +73,7 @@ public class AnswerFetcherMock extends AbstractAnswerFetcher implements IAnswerF
         Serializer serializer = new Persister();
         user = serializer.read(User.class, ConstantLoader.USER_PATH);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getStackTrace());
         }
     }
 

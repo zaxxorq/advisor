@@ -1,10 +1,13 @@
 package advisor.ocl.domain;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
 public class User {
+    @Element
     private String AndroidId;
+    @Element
     private String UKey;
 
     public String getAndroidId() {
