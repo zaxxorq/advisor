@@ -1,5 +1,6 @@
 package advisor.ocl.DAL.impl;
 
+import android.app.Application;
 import android.content.Context;
 import android.provider.Settings;
 
@@ -19,20 +20,19 @@ import java.net.SocketAddress;
 import advisor.ocl.DAL.api.AbstractAnswerFetcher;
 import advisor.ocl.DAL.api.IAnswerFetcher;
 import advisor.ocl.domain.User;
+import advisor.ocl.main.App;
 import advisor.ocl.util.ConstantLoader;
 import advisor.ocl.util.FWriter;
 
 /**
  * Created by ezarsto on 16.9.2015..
  */
-public class AnswerFetcherMock extends AbstractAnswerFetcher {
+public class AnswerFetcherMock extends AbstractAnswerFetcher implements IAnswerFetcher {
 
     User user;
     OkHttpClient client = new OkHttpClient();
 
-    public AnswerFetcherMock(Context context) {
-        super(context);
-    }
+    public AnswerFetcherMock() {}
 
     @Override
     public String getAnswer()
@@ -46,8 +46,8 @@ public class AnswerFetcherMock extends AbstractAnswerFetcher {
     public void downloadFile() {
         try {
             String contentMock = mockSerialize();
-            FWriter writer = new FWriter(context);
-            writer.writeLocalFile(ConstantLoader.USER_PATH, contentMock);
+            FWriter writer = new FWriter();
+            writer.writeFile(ConstantLoader.USER_PATH, contentMock);
 
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.17.64.132",8080));
             client.setProxy(proxy);
@@ -72,7 +72,6 @@ public class AnswerFetcherMock extends AbstractAnswerFetcher {
         try {
         Serializer serializer = new Persister();
         user = serializer.read(User.class, ConstantLoader.USER_PATH);
-            //TODO: wrong path
         } catch (Exception e) {
             e.printStackTrace();
         }

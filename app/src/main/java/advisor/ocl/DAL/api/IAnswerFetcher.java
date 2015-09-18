@@ -5,6 +5,4 @@ package advisor.ocl.DAL.api;
  */
 public interface IAnswerFetcher {
     String getAnswer();
-    void downloadFile();
-    void deserialize();
 }

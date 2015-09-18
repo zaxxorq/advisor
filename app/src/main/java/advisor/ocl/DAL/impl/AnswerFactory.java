@@ -12,6 +12,6 @@ public class AnswerFactory {
     {
         //TODO: implement magic
         // context.getClass();
-        return new AnswerFetcherMock(context);
+        return new AnswerFetcherMock();
     }
 }

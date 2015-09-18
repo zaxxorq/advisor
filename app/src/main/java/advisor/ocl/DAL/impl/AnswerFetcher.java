@@ -8,10 +8,8 @@ import advisor.ocl.DAL.api.IAnswerFetcher;
 /**
  * Created by ezarsto on 16.9.2015..
  */
-public class AnswerFetcher extends AbstractAnswerFetcher {
-    public AnswerFetcher(Context context) {
-        super(context);
-    }
+public class AnswerFetcher extends AbstractAnswerFetcher implements IAnswerFetcher {
+    public AnswerFetcher(){}
 
     @Override
     public String getAnswer() {
@@ -22,7 +20,6 @@ public class AnswerFetcher extends AbstractAnswerFetcher {
     public void downloadFile() {
 
     }
-
     @Override
     public void deserialize() {
 
