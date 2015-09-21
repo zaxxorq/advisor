@@ -31,6 +31,7 @@ public class AnswerFetcherMock extends AbstractAnswerFetcher implements IAnswerF
 
     User user;
     OkHttpClient client = new OkHttpClient();
+    String responseStr = "";
 
     public AnswerFetcherMock() {}
 
@@ -39,31 +40,34 @@ public class AnswerFetcherMock extends AbstractAnswerFetcher implements IAnswerF
     {
         downloadFile();
 
-        return "dummy";
+        return responseStr;
     }
 
     @Override
     public void downloadFile() {
         try {
             String contentMock = mockSerialize();
-            FWriter writer = new FWriter();
-            writer.writeFile(ConstantLoader.USER_PATH, contentMock);
 
-            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.17.64.132",8080));
-            client.setProxy(proxy);
+            Boolean isPorxyEnabled = true;
+            if(isPorxyEnabled) {
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.17.64.132", 8080));
+                client.setProxy(proxy);
+            }
 
-            String url = "http://www.google.com";
+            //  String url = "http://www.google.com";
+            String url = "http://10.0.2.2:49873";
             Request request = new Request.Builder()
                     .url(url)
                     .build();
 
             Response response = client.newCall(request).execute();
-            String responseStr = response.toString();
+            responseStr = response.body().string();
             if(response.isSuccessful() && response.code() == 200)
                 deserialize();
 
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
+            responseStr = "error = " + e.getMessage() + " | " + e.getStackTrace().toString();
         }
     }
 
